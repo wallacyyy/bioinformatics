@@ -4,9 +4,9 @@ describe Bio::OriC do
   let(:vibrio)       { './spec/fixtures/vibrio-cholerae.txt' }
   let(:frequent)     { './spec/fixtures/frequent.txt' }
   let(:output_path)  { './spec/fixtures/output.txt' }
-  let(:vibrio_dna)   { File.open(vibrio, 'rb') { |file| file.read } }
-  let(:frequent_dna) { File.open(frequent, 'rb') { |file| file.read } }
-  let(:output)       { File.open(output_path, 'rb') { |file| file.read } }
+  let(:vibrio_dna)   { IO.readlines(vibrio).first }
+  let(:frequent_dna) { IO.readlines(frequent).first }
+  let(:output)       { IO.readlines(output_path).first }
 
 
   it 'counts overlapping patterns' do

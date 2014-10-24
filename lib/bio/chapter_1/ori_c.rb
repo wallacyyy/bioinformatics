@@ -8,11 +8,11 @@ module Bio
       @sample.scan(/(?=(#{pattern}))/).count
     end
 
-    def most_frequents(k_mer)
+    def most_frequents(k)
       frequencies = {}
       pattern = ""
 
-      for i in 1..k_mer do pattern << "." end
+      for i in 1..k do pattern << "." end
       candidates = @sample.scan(/(?=(#{pattern}))/).flatten.uniq
       candidates.each { |candidate| frequencies["#{candidate}"] = count(candidate) }
       max = frequencies.values.max
