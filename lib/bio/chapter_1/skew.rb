@@ -23,6 +23,5 @@ module Bio
       result = []
       skew.each_index.select { |i| skew[i] == min }
     end
-
   end
 end

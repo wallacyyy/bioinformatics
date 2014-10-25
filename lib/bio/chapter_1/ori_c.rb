@@ -35,7 +35,7 @@ module Bio
         max = i + k - 1
         pattern = text[i..max]
         j = pattern_to_number(pattern)
-        frequencies[j] = frequencies[j] + 1
+        frequencies[j] += 1
       end
       frequencies
     end   
@@ -60,10 +60,10 @@ module Bio
 
         if (j >= l)
           old_index = queue.shift
-          frequencies[old_index] = frequencies[old_index] - 1
+          frequencies[old_index] -= 1
         end
 
-        frequencies[index] = frequencies[index] + 1
+        frequencies[index] += 1
 
         if (frequencies[index] >= t)
           pattern = number_to_pattern(index, k)

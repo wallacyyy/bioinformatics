@@ -1,6 +1,23 @@
 require './lib/bio'
 require 'pry'
 
+task :approximate do
+  data = IO.readlines('./lib/bio/chapter_1/data/data_12.txt')
+  hamming = Bio::Hamming.new
+  sample = data[0].chomp
+  pattern = data[1].chomp
+  d = data[2].to_i
+  approximate = hamming.approximate_patterns(pattern, sample, d).count
+  puts approximate
+end
+
+task :distance do
+  data = IO.readlines('./lib/bio/chapter_1/data/data_10.txt')
+  hamming = Bio::Hamming.new
+  distance = hamming.distance(data[0], data[1])
+  puts distance
+end
+
 task :skew do
   sample = IO.read('./lib/bio/chapter_1/data/data_9.txt').chomp
   skew = Bio::Skew.new(sample)
