@@ -1,34 +1,47 @@
 require './lib/bio'
+require 'pry'
 
 task :pattern_counter do
-  sample = File.open('./lib/bio/chapter_1/data.txt', 'rb').read
+  sample = ('./lib/bio/chapter_1/data.txt')
   count = Bio::OriC.new(sample).count('AATCGTCAA')
   puts count   
 end
 
 task :most_frequents do
-  sample = File.open('./lib/bio/chapter_1/data_2.txt', 'rb').read
+  sample = IO.read('./lib/bio/chapter_1/data_2.txt')
   ori_c  = Bio::OriC.new(sample)
-  puts ori_c.most_frequents(12).join(" ")
+  puts ori_c.most_frequents(12).join(' ')
 end
 
 task :reverser do
-  sample = IO.readlines('./lib/bio/chapter_1/data_3.txt').first
+  sample = IO.read('./lib/bio/chapter_1/data_3.txt').chomp
   reversed = Bio::DnaComplement.new(sample).reverse
   File.write('./result.txt', reversed)
 end
 
 task :find_positions do
-  sample = IO.readlines('./lib/bio/chapter_1/data_4.txt').first
+  sample = IO.read('./lib/bio/chapter_1/data_4.txt').chomp
   positions = Bio::DnaComplement.new(sample).positions('CAGTTCCCA')
-  positions.each { |p| result << p.to_s + " " }
+  positions.each { |p| result << p.to_s + ' ' }
   File.write('./result.txt', result)
 end
 
-task :find_clumps do
-  sample = IO.readlines('./lib/bio/chapter_1/data_5.txt').first
-  clumps = Bio::DnaComplement.new(sample).clumps(10, 585, 20)
-  result = ""
-  clumps.each { |c| result << c.to_s + " " }
-  File.write('./result.txt', result)
+task :pattern_to_number do
+  puts Bio::OriC.new.pattern_to_number('CTTCGC')
+end
+
+task :number_to_pattern do
+  puts Bio::OriC.new.number_to_pattern(5437, 8)
+end
+
+task :frequency do
+  sample = IO.read('./lib/bio/chapter_1/data_6.txt').chomp
+  result =  Bio::OriC.new(sample).frequency_table(7)
+  IO.write('./result.txt', result)
+end
+
+task :clumps do
+  sample = IO.read('./lib/bio/chapter_1/data_8.txt').chomp
+  clumps = Bio::OriC.new(sample).clumps(10, 506, 16)
+  File.write('./result.txt', clumps.join(' '))
 end

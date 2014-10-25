@@ -1,13 +1,9 @@
 require 'spec_helper'
 
 describe Bio::OriC do
-  let(:vibrio)       { './spec/fixtures/vibrio-cholerae.txt' }
-  let(:frequent)     { './spec/fixtures/frequent.txt' }
-  let(:output_path)  { './spec/fixtures/output.txt' }
-  let(:vibrio_dna)   { IO.readlines(vibrio).first }
-  let(:frequent_dna) { IO.readlines(frequent).first }
-  let(:output)       { IO.readlines(output_path).first }
-
+  let(:vibrio_dna)   { IO.read('./spec/fixtures/vibrio-cholerae.txt') }
+  let(:frequent_dna) { IO.read('./spec/fixtures/frequent.txt') }
+  let(:output)       { IO.read('./spec/fixtures/output.txt') }
 
   it 'counts overlapping patterns' do
     sample  = 'GCGCG'
@@ -38,4 +34,25 @@ describe Bio::OriC do
     end
   end
 
+  it 'finds frequency tables' do
+    sample = IO.read('./spec/fixtures/frequency-table.txt').chomp
+    output = IO.read('./spec/fixtures/frequency-table-output.txt').chomp
+    bio = Bio::OriC.new(sample)
+    expect(bio.frequency_table(6).join(' ')).to eq(output)
+  end
+
+  context 'find clumps' do
+    it 'runs with a simple dna string' do
+      bio = Bio::OriC.new('CGGACTCGACAGATGTGAAGAACGACAATGTG' +
+                          'AAGACTCGACACGACAGAGTGAAGAGAAGAGGAAACATTGTAA')
+      expect(bio.clumps(5, 50, 4)).to eq(['CGACA', 'GAAGA'])
+    end
+
+    it 'runs with a great dna string' do
+      sample = IO.read('./spec/fixtures/clumps.txt').chomp
+      bio = Bio::OriC.new(sample)
+      expect(bio.clumps(11, 566, 18)).to eq(['AAACCAGGTGG'])
+    end
+
+  end
 end

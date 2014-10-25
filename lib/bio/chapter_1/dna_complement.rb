@@ -17,25 +17,5 @@ module Bio
     def positions(pattern)
       @sample.enum_for(:scan, /(?=(#{pattern}))/).map { Regexp.last_match.begin(0) }
     end
-
-    # How many strings with the length of k appears t times in an interval with length l
-    def clumps(k, l, t)
-      k_pattern = /(?=(.{#{k}}))/
-      l_pattern = /(?=(.{#{l}}))/
-      result = []
-
-      intervals = @sample.gsub("\n", "").scan(l_pattern).flatten
-      total = intervals.count
-      intervals.each_with_index do |interval, index| 
-        system('clear')
-        puts "Reading interval #{index}/#{total}"
-        found = interval.scan(k_pattern).flatten
-        found.uniq.each do |p|
-          matched = found.select { |e| e == p } 
-          result.push(matched.first) if matched.count == t
-        end
-      end
-      result.uniq
-    end
   end
 end
