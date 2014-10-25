@@ -1,6 +1,9 @@
 module Bio
   class DnaComplement 
-    ASSOCIATIONS = { 'A' => 'T', 'T' => 'A', 'C' => 'G', 'G' => 'C' } 
+    ASSOCIATIONS = { 'A' => 'T', 
+                     'T' => 'A', 
+                     'C' => 'G', 
+                     'G' => 'C' } 
 
     def initialize(sample)
       @sample = sample
