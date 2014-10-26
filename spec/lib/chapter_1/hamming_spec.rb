@@ -30,10 +30,18 @@ describe Bio::Hamming do
       expect(result.join(' ')).to eq('ATGC ATGT GATG')
     end
 
-    it 'runs with a complex dna string' do
+    xit 'runs with a complex dna string' do
       sample = IO.read('./spec/fixtures/mismatch.txt').chomp
       result = hamming.frequent_patterns(sample, 10, 2)
       expect(result.join(' ')).to eq('GCACACAGAC GCGCACACAC')
     end
+  end
+
+  it 'finds the neighbord patterns' do
+    pattern = 'ACG'
+    result = hamming.neighbors(pattern, 1)
+    output = ['CCG', 'TCG', 'GCG', 'AAG', 'ATG', 'AGG', 
+              'ACA', 'ACC', 'ACT', 'ACG'].sort
+    expect(result.sort).to eq(output)
   end
 end

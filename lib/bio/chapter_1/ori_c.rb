@@ -1,14 +1,14 @@
 module Bio
   class OriC
     NUCLEOTIDES = ['A', 'T', 'C', 'G']
+    attr_accessor :nucleotides
 
     def initialize(sample = '')
       @sample = sample
     end
 
     def nucleotides_table(k)
-      @nucleotides || @nucleotides = NUCLEOTIDES.repeated_permutation(k)
-                                     .map(&:join).sort
+      NUCLEOTIDES.repeated_permutation(k).map(&:join).sort
     end
 
     def count(pattern)
@@ -38,7 +38,7 @@ module Bio
         frequencies[j] += 1
       end
       frequencies
-    end   
+    end
 
     def clumps(k, l, t)
       code = { 'A' => 0, 'C' => 1, 'G' => 2, 'T' => 3 }
