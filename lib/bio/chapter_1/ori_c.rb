@@ -7,12 +7,24 @@ module Bio
       @sample = sample
     end
 
-    def nucleotides_table(k)
+    def build_table(k)
       NUCLEOTIDES.repeated_permutation(k).map(&:join).sort
+    end
+
+    def nucleotides_table(k)
+      @nucleotides || @nucleotides = build_table(k)
     end
 
     def count(pattern)
       @sample.scan(/(?=(#{pattern}))/).count
+    end
+
+    def hashed(k)
+      return @hash if @hash
+      nucleotides = @nucleotides || build_table(k)
+      hash = {}
+      nucleotides.each_with_index { |e, i| hash[e] = i }
+      @hash = hash
     end
 
     def most_frequents(k)
@@ -75,7 +87,7 @@ module Bio
 
     def pattern_to_number(pattern)
       k = pattern.length
-      nucleotides_table(k).index(pattern)
+      hashed(k)[pattern]
     end
 
     def number_to_pattern(index, k)

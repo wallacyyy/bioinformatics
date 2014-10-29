@@ -3,6 +3,12 @@ require 'spec_helper'
 describe Bio::Hamming do
   let(:hamming) { Bio::Hamming.new }
 
+  it 'find frequent patterns by sort' do
+    sample = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
+    result = hamming.frequent_sort(sample, 4)
+    expect(result).to eq(['CATG', 'GCAT'])
+  end
+
   it 'calculates the hamming distance between two dna strings' do
     distance = hamming.distance('GGGCCGTTGGT', 'GGACCGTTGAC')
     expect(distance).to eq(3)
@@ -26,13 +32,13 @@ describe Bio::Hamming do
   context 'finds most frequent patterns based on a hamming distance' do
     it 'runs with a simple dna string' do
       sample = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
-      result = hamming.frequent_patterns(sample, 4, 1)
+      result = hamming.frequent_patterns_sort(sample, 4, 1)
       expect(result.join(' ')).to eq('ATGC ATGT GATG')
     end
 
-    xit 'runs with a complex dna string' do
+    it 'runs with a complex dna string' do
       sample = IO.read('./spec/fixtures/mismatch.txt').chomp
-      result = hamming.frequent_patterns(sample, 10, 2)
+      result = hamming.frequent_patterns_sort(sample, 10, 2)
       expect(result.join(' ')).to eq('GCACACAGAC GCGCACACAC')
     end
   end

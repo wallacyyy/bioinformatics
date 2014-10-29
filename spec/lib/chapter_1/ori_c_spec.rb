@@ -48,7 +48,7 @@ describe Bio::OriC do
       expect(bio.clumps(5, 50, 4)).to eq(['CGACA', 'GAAGA'])
     end
 
-    xit 'runs with a great dna string' do
+    it 'runs with a great dna string' do
       sample = IO.read('./spec/fixtures/clumps.txt').chomp
       bio = Bio::OriC.new(sample)
       expect(bio.clumps(11, 566, 18)).to eq(['AAACCAGGTGG'])
