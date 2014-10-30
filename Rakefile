@@ -1,13 +1,19 @@
 require './lib/bio'
 require 'pry'
 
+task :frequent_sort_reverse do
+  sample = IO.read('./lib/bio/chapter_1/data/data_14.txt').chomp
+  hamming = Bio::Hamming.new
+  result = hamming.frequent_patterns_sort(sample, 10, 3, true)
+  File.write('./result.txt', result.join(' '))
+end
+
 task :frequent_sort do
   sample = IO.read('./lib/bio/chapter_1/data/data_13.txt').chomp
   hamming = Bio::Hamming.new
   result = hamming.frequent_patterns_sort(sample, 10, 2)
   File.write('./result.txt', result.join(' '))
 end
-
 
 task :approximate do
   data = IO.readlines('./lib/bio/chapter_1/data/data_12.txt')

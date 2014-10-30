@@ -31,8 +31,9 @@ module Bio
       frequents
     end
 
-    def frequent_patterns_sort(sample, k, d)
+    def frequent_patterns_sort(sample, k, d, reverse = false)
       ori_c = OriC.new
+      reverser = DnaComplement.new
       index = []
       count = []
       frequents = []
@@ -41,6 +42,11 @@ module Bio
       for i in 0..(sample.length - k) do
         pattern = sample[i..i + k - 1]
         n = neighbors(pattern, d)
+        if (reverse)
+          reverser.sample = pattern 
+          r = neighbors(reverser.reverse, d)
+          neighborhood.concat(r)
+        end
         neighborhood.concat(n)
       end
 

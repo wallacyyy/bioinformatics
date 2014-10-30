@@ -1,11 +1,14 @@
 module Bio
   class DnaComplement 
+    attr_accessor :sample
+
+
     ASSOCIATIONS = { 'A' => 'T', 
                      'T' => 'A', 
                      'C' => 'G', 
                      'G' => 'C' } 
 
-    def initialize(sample)
+    def initialize(sample = '')
       @sample = sample
     end
 

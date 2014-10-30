@@ -36,10 +36,23 @@ describe Bio::Hamming do
       expect(result.join(' ')).to eq('ATGC ATGT GATG')
     end
 
-    it 'runs with a complex dna string' do
+    xit 'runs with a complex dna string' do
       sample = IO.read('./spec/fixtures/mismatch.txt').chomp
       result = hamming.frequent_patterns_sort(sample, 10, 2)
       expect(result.join(' ')).to eq('GCACACAGAC GCGCACACAC')
+    end
+
+    it 'finds it considering their reverse complements' do
+      sample = 'ACGTTGCATGTCGCATGATGCATGAGAGCT'
+      result = hamming.frequent_patterns_sort(sample, 4, 1, true)
+      expect(result.join(' ')).to eq('ACAT ATGT')
+    end
+
+    it 'finds it considering their reverse complements 
+        with a complex dna string' do
+      sample = IO.read('./spec/fixtures/mismatch-reverse.txt').chomp
+      result = hamming.frequent_patterns_sort(sample, 9, 3, true)
+      expect(result.join(' ')).to eq('AGCGCCGCT AGCGGCGCT')
     end
   end
 
