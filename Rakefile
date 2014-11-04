@@ -1,6 +1,13 @@
 require './lib/bio'
 require 'pry'
 
+
+task :rna_translate do
+  sample = IO.read('./lib/bio/chapter_2/data/data.txt').chomp
+  result = Bio::Rna.new.translate(sample)
+  File.write('./result.txt', result)
+end
+
 task :frequent_sort_reverse do
   sample = IO.read('./lib/bio/chapter_1/data/data_14.txt').chomp
   hamming = Bio::Hamming.new
@@ -16,24 +23,24 @@ task :frequent_sort do
 end
 
 task :approximate do
-  data = IO.readlines('./lib/bio/chapter_1/data/data_12.txt')
   hamming = Bio::Hamming.new
-  sample = data[0].chomp
-  pattern = data[1].chomp
-  d = data[2].to_i
+  sample = 'CGTGACAGTGTATGGGCATCTTT'
+  pattern = 'TGT'
+  d = 1
   approximate = hamming.approximate_patterns(pattern, sample, d).count
   puts approximate
 end
 
 task :distance do
-  data = IO.readlines('./lib/bio/chapter_1/data/data_10.txt')
+  data_1 = 'CTACAGCAATACGATCATATGCGGATCCGCAGTGGCCGGTAGACACACGT'
+  data_2 = 'CTACCCCGCTGCTCAATGACCGGGACTAAAGAGGCGAAGATTATGGTGTG'
   hamming = Bio::Hamming.new
-  distance = hamming.distance(data[0], data[1])
+  distance = hamming.distance(data_1, data_2)
   puts distance
 end
 
 task :skew do
-  sample = IO.read('./lib/bio/chapter_1/data/data_9.txt').chomp
+  sample = 'GATACACTTCCCAGTAGGTACTG'
   skew = Bio::Skew.new(sample)
   File.write('./result.txt', skew.minimal.join(' '))
 end
@@ -51,7 +58,7 @@ task :most_frequents do
 end
 
 task :reverser do
-  sample = IO.read('./lib/bio/chapter_1/data/ata_3.txt').chomp
+  sample = 'CCAGATC'
   reversed = Bio::DnaComplement.new(sample).reverse
   File.write('./result.txt', reversed)
 end
@@ -78,7 +85,9 @@ task :frequency do
 end
 
 task :clumps do
-  sample = IO.read('./lib/bio/chapter_1/data/data_8.txt').chomp
-  clumps = Bio::OriC.new(sample).clumps(10, 506, 16)
+  #clumps(k, l, t)
+  sample = 'GCACAAGGCCGACAATAGGACGTAGCCTTGAAGACGACGTAGCGTGGTCGCATAAGTACAGTAGATAGTACCTCCCCCGCGCATCCTATTATTAAGTTAATT'
+  clumps = Bio::OriC.new(sample).clumps(4, 30, 3)
+  puts clumps
   File.write('./result.txt', clumps.join(' '))
 end
