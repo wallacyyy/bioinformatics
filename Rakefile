@@ -1,6 +1,16 @@
 require './lib/bio'
 require 'pry'
 
+task :spectrum do
+  result = Bio::Rna.new.cyclic_spectrum('PTYFRMWASRHFYA')
+  File.write('./result.txt', result.join(' '))
+end
+
+task :encode do
+  sample = IO.read('./lib/bio/chapter_2/data/data_2.txt').chomp
+  result = Bio::Rna.new.encode(sample, 'NHWHMLIM')
+  File.write('./result.txt', result.join(' '))
+end
 
 task :rna_translate do
   sample = IO.read('./lib/bio/chapter_2/data/data.txt').chomp
