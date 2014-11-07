@@ -12,6 +12,21 @@ module Bio
         'D' => 115, 'K' => 128, 'Q' => 128, 'E' => 129, 'M' => 131,
         'H' => 137, 'F' => 147, 'R' => 156, 'Y' => 163, 'W' => 186 }
 
+
+    def score(peptide, spectrum)
+      control = []
+      linear = cyclic_spectrum(peptide)    
+      score = 0
+      linear.each do |p|
+        next if (control.count(p) > 0)
+        a = linear.count(p)
+        b = spectrum.count(p)
+        score += [a, b].min
+        control.push(p)
+      end
+      score
+    end
+
     def format_input(input)
       spectrum = input.split.map(&:to_i)
     end

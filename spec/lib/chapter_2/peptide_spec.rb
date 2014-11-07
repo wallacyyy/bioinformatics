@@ -25,4 +25,11 @@ describe Bio::Rna do
       expect(result.sort).to eq(output.split.sort)
     end
   end
+
+  it 'calculates the score between a linear spectrum of a peptide and another' do
+    sample = 'NQEL'
+    input = '0 99 113 114 128 227 257 299 355 356 370 371 484'
+    spectrum = peptide.format_input(input)
+    expect(peptide.score(sample, spectrum)).to eq(11)
+  end
 end

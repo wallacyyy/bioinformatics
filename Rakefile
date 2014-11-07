@@ -1,6 +1,14 @@
 require './lib/bio'
 require 'pry'
 
+task :score do
+  sample = 'GAQLPPGWYQCGDWGIQDAKAFPHKNTMCENKTDFVQGAWDHTPM'
+  spectrum = IO.read('./lib/bio/chapter_2/data/data_4.txt').chomp
+  peptide = Bio::Peptide.new
+  formatted = peptide.format_input(spectrum) 
+  puts peptide.score(sample, formatted)
+end
+
 task :cyclo_sequence do
   input = IO.read('./lib/bio/chapter_2/data/data_3.txt').chomp
   peptide = Bio::Peptide.new
