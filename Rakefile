@@ -1,8 +1,15 @@
 require './lib/bio'
 require 'pry'
 
+task :cyclo_sequence do
+  input = IO.read('./lib/bio/chapter_2/data/data_3.txt').chomp
+  peptide = Bio::Peptide.new
+  result = peptide.cyclopeptides_sequence(peptide.format_input(input))
+  File.write('./result.txt', result.join(' '))
+end
+
 task :spectrum do
-  result = Bio::Rna.new.cyclic_spectrum('PTYFRMWASRHFYA')
+  result = Bio::Peptide.new.cyclic_spectrum('PTYFRMWASRHFYA')
   File.write('./result.txt', result.join(' '))
 end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Bio::Hamming do
+xdescribe Bio::Hamming do
   let(:hamming) { Bio::Hamming.new }
 
   it 'find frequent patterns by sort' do
@@ -36,7 +36,7 @@ describe Bio::Hamming do
       expect(result.join(' ')).to eq('ATGC ATGT GATG')
     end
 
-    xit 'runs with a complex dna string' do
+    it 'runs with a complex dna string' do
       sample = IO.read('./spec/fixtures/mismatch.txt').chomp
       result = hamming.frequent_patterns_sort(sample, 10, 2)
       expect(result.join(' ')).to eq('GCACACAGAC GCGCACACAC')

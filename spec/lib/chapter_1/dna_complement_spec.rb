@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Bio::DnaComplement do
+xdescribe Bio::DnaComplement do
   let(:reverse_input)       { IO.read('./spec/fixtures/reverse-input.txt') }
   let(:reverse_output)      { IO.read('./spec/fixtures/reverse-output.txt') }
   let(:clump_output)        { IO.read('./spec/fixtures/reverse-output.txt') }
