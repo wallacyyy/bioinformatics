@@ -12,17 +12,23 @@ module Bio
         'D' => 115, 'K' => 128, 'Q' => 128, 'E' => 129, 'M' => 131,
         'H' => 137, 'F' => 147, 'R' => 156, 'Y' => 163, 'W' => 186 }
 
-
-    def score(peptide, spectrum)
-      control = []
-      linear = cyclic_spectrum(peptide)    
+    def score(peptide, spectrum, cyclic = true)
+      cyclic ? f = cyclic_spectrum(peptide) : f = linear_spectrum(peptide)
       score = 0
-      linear.each do |p|
-        next if (control.count(p) > 0)
-        a = linear.count(p)
-        b = spectrum.count(p)
-        score += [a, b].min
-        control.push(p)
+      count = 0
+      length = spectrum.length - 1
+
+      for i in 0..f.length - 1 do 
+        next if (f[i] < spectrum[count])
+
+        while (f[i] > spectrum[count] and count < length)
+          count += 1
+        end
+
+        if (f[i] == spectrum[count] and count < length)
+          score += 1
+          count += 1
+        end
       end
       score
     end
@@ -73,6 +79,50 @@ module Bio
       expanded.uniq
     end
 
+    def trim(leaderboard, spectrum, n)
+      scores = {}
+
+      for i in 0..leaderboard.length - 1 do
+        peptide = leaderboard[i]
+        scores[leaderboard[i]] = score(peptide, spectrum, false)
+      end
+
+      scores = scores.sort_by{|k,v| v}.reverse.to_h
+      leader = scores.keys
+      leader_scores = scores.values
+      size = leader.length
+
+      return leader if n >= size
+      for i in n..leader.length - 1 do
+        if (leader_scores[i] < leader_scores[n - 1])
+          return leader[0..i - 1]
+        end
+      end
+    end
+
+    def leaderboard_sequence(spectrum, n)
+      leaderboard = ['']
+      leader_peptide = ''
+
+      while leaderboard.any? do
+        leaderboard = expand(spectrum, leaderboard)
+        leaderboard.delete_if do |peptide|
+          peptide_mass = prefix_mass_value(peptide).max
+          spectrum_mass = spectrum.max
+          if (peptide_mass == spectrum_mass)
+            if (score(peptide, spectrum) > score(leader_peptide, spectrum))
+              leader_peptide = peptide
+              false
+            end
+          else 
+            peptide_mass > spectrum_mass
+          end
+        end
+        leaderboard = trim(leaderboard, spectrum, n)
+      end
+      format(leader_peptide)
+    end
+
     def cyclopeptides_sequence(spectrum)
       peptides = ['']
       result = []
@@ -87,7 +137,7 @@ module Bio
           else
             !is_consistent?(peptide, spectrum)
           end
-        end 
+        end
       end
       result
     end

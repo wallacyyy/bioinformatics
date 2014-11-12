@@ -1,12 +1,28 @@
 require './lib/bio'
 require 'pry'
 
-task :score do
-  sample = 'GAQLPPGWYQCGDWGIQDAKAFPHKNTMCENKTDFVQGAWDHTPM'
-  spectrum = IO.read('./lib/bio/chapter_2/data/data_4.txt').chomp
+task :leaderboard do
+  spectrum = IO.read('./lib/bio/chapter_2/data/data_6.txt').chomp
   peptide = Bio::Peptide.new
   formatted = peptide.format_input(spectrum) 
-  puts peptide.score(sample, formatted)
+  puts peptide.leaderboard_sequence(formatted, 313)
+end
+
+task :trim do
+  peptide = Bio::Peptide.new
+  leaderboard = IO.read('./lib/bio/chapter_2/data/data_7.txt').chomp.split
+  input = IO.read('./lib/bio/chapter_2/data/data_8.txt').chomp
+  spectrum = peptide.format_input(input)
+  result = peptide.trim(leaderboard, spectrum, 6) 
+  File.write('./result.txt', result.join(' '))
+end
+
+task :score do
+  sample = 'KAQSYPWQMEWPGQPEKKSIARWAWMDNSNTARNNIYPRH'
+  spectrum = IO.read('./lib/bio/chapter_2/data/data_5.txt').chomp
+  peptide = Bio::Peptide.new
+  formatted = peptide.format_input(spectrum) 
+  puts peptide.score(sample, formatted, false)
 end
 
 task :cyclo_sequence do
@@ -111,7 +127,8 @@ end
 
 task :clumps do
   #clumps(k, l, t)
-  sample = 'GCACAAGGCCGACAATAGGACGTAGCCTTGAAGACGACGTAGCGTGGTCGCATAAGTACAGTAGATAGTACCTCCCCCGCGCATCCTATTATTAAGTTAATT'
+  sample = 'GCACAAGGCCGACAATAGGACGTAGCCTTGAAGACGACGTAGCGTGGTCGCATAAG' + 
+           'TACAGTAGATAGTACCTCCCCCGCGCATCCTATTATTAAGTTAATT'
   clumps = Bio::OriC.new(sample).clumps(4, 30, 3)
   puts clumps
   File.write('./result.txt', clumps.join(' '))
