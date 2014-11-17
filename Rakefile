@@ -1,6 +1,34 @@
 require './lib/bio'
 require 'pry'
 
+
+task :consistent do
+  peptide = Bio::Peptide.new
+  p = 'TCQ'
+  spectrum = '0 71 99 101 103 128 129 199 200 204 227 230 231 298 303 328 330 332 333'
+  puts peptide.is_consistent?(p, peptide.format_input(spectrum))
+end
+
+task :leader_convolution do
+  peptide = Bio::Peptide.new
+  convolution = Bio::Convolution.new
+  spectrum = IO.read('./lib/bio/chapter_2/data/data_10.txt').chomp
+  formatted = peptide.format_input(spectrum).sort
+  m = 17
+  n = 345
+  result = convolution.convolution_cyclopeptide_sequence(formatted, m, n)
+  puts result
+end
+
+task :convolution do
+  peptide = Bio::Peptide.new
+  c = Bio::Convolution.new
+  spectrum = '0 57 118 179 236 240 301'
+  formatted = peptide.format_input(spectrum) 
+  result = c.spectral_convolution(formatted.sort)
+  puts result
+end
+
 task :leaderboard do
   spectrum = IO.read('./lib/bio/chapter_2/data/data_6.txt').chomp
   peptide = Bio::Peptide.new
@@ -18,11 +46,11 @@ task :trim do
 end
 
 task :score do
-  sample = 'KAQSYPWQMEWPGQPEKKSIARWAWMDNSNTARNNIYPRH'
-  spectrum = IO.read('./lib/bio/chapter_2/data/data_5.txt').chomp
+  sample = 'PEEP'
+  spectrum = '0 97 97 129 129 194 203 226 226 258 323 323 323 355 403 452'
   peptide = Bio::Peptide.new
   formatted = peptide.format_input(spectrum) 
-  puts peptide.score(sample, formatted, false)
+  puts peptide.simple_score(sample, formatted, false)
 end
 
 task :cyclo_sequence do
@@ -33,8 +61,12 @@ task :cyclo_sequence do
 end
 
 task :spectrum do
-  result = Bio::Peptide.new.cyclic_spectrum('PTYFRMWASRHFYA')
-  File.write('./result.txt', result.join(' '))
+  result = Bio::Peptide.new.cyclic_spectrum('TAIM')
+  output = '0 71 101 113 131 184 202 214 232 285 303 315 345 416'
+  f = result.join(' ')
+  puts f == output
+  puts f
+  puts output
 end
 
 task :encode do
@@ -44,9 +76,9 @@ task :encode do
 end
 
 task :rna_translate do
-  sample = IO.read('./lib/bio/chapter_2/data/data.txt').chomp
+  sample = 'CCAAGAACAGAUAUCAAU'
   result = Bio::Rna.new.translate(sample)
-  File.write('./result.txt', result)
+  puts result
 end
 
 task :frequent_sort_reverse do

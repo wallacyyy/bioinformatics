@@ -11,14 +11,14 @@ describe Bio::Rna do
   end
 
   context 'finds the sequence of a cyclopeptide' do
-    it 'runs with a simple spectrum' do
+    it 'with a simple spectrum' do
       input = peptide.format_input('0 113 128 186 241 299 314 427')
       output = %w(186-128-113 186-113-128 128-186-113 128-113-186 113-186-128 113-128-186)
       result = peptide.cyclopeptides_sequence(input)
       expect(result.sort).to eq(output.sort)
     end
 
-    it 'runs with a complex spectrum' do
+    it 'with a complex spectrum' do
       input = IO.read('./spec/fixtures/cyclo-input.txt').chomp 
       output = IO.read('./spec/fixtures/cyclo-output.txt').chomp 
       result = peptide.cyclopeptides_sequence(peptide.format_input(input))
@@ -41,7 +41,7 @@ describe Bio::Rna do
   end
 
   context 'trims a leaderboard' do
-    it 'runs with a simple dataset' do
+    it 'with a simple dataset' do
       leaderboard = ['LAST', 'ALST', 'TLLT', 'TQAS']
       spectrum = peptide.format_input('0 71 87 101 113 158 184 188 259 271 372')
       output = ['LAST', 'ALST']
@@ -49,7 +49,7 @@ describe Bio::Rna do
       expect(result).to eq(output)
     end
 
-    it 'runs with a complex dataset' do
+    it 'with a complex dataset' do
       leaderboard = IO.read('./spec/fixtures/trim-leaderboard.txt').chomp.split
       raw = IO.read('./spec/fixtures/trim-leaderboard-spectrum.txt').chomp
       spectrum = peptide.format_input(raw)

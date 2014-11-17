@@ -12,6 +12,20 @@ module Bio
         'D' => 115, 'K' => 128, 'Q' => 128, 'E' => 129, 'M' => 131,
         'H' => 137, 'F' => 147, 'R' => 156, 'Y' => 163, 'W' => 186 }
 
+    def simple_score(peptide, spectrum, cyclic = true)
+      cyclic ? f = cyclic_spectrum(peptide) : f = linear_spectrum(peptide)
+      control = []
+      score = 0
+      f.each do |p|
+        next if (control.count(p) > 0)
+        a = f.count(p)
+        b = spectrum.count(p)
+        score += [a, b].min
+        control.push(p)
+      end
+      score
+    end
+
     def score(peptide, spectrum, cyclic = true)
       cyclic ? f = cyclic_spectrum(peptide) : f = linear_spectrum(peptide)
       score = 0
