@@ -2,6 +2,17 @@ require './lib/bio'
 require 'pry'
 
 
+task :enum do
+  motif = Bio::Motif.new
+  sample = []
+  IO.foreach('./lib/bio/chapter_3/data/data.txt') do |line|
+    sample.push(line.chomp)
+  end
+  result = motif.enumeration(sample, 5, 1)
+  File.write('./result.txt', result.join(' '))
+end
+
+
 task :consistent do
   peptide = Bio::Peptide.new
   p = 'TCQ'

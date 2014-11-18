@@ -166,6 +166,5 @@ module Bio
       end
       score
     end
-
   end
 end
