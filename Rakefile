@@ -2,6 +2,16 @@ require './lib/bio'
 require 'pry'
 
 
+task :median do
+  motif = Bio::Motif.new
+  sample = []
+  IO.foreach('./lib/bio/chapter_3/data/data_2.txt') do |line|
+    sample.push(line.chomp)
+  end
+  puts motif.median_string(sample, 6)
+end
+
+
 task :enum do
   motif = Bio::Motif.new
   sample = []
