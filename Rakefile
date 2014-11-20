@@ -1,6 +1,12 @@
 require './lib/bio'
 require 'pry'
 
+task :most_probable do
+  motif = Bio::Motif.new
+  dna = IO.read('./lib/bio/chapter_3/data/data_3.txt').chomp
+  profile = Bio::Reader.new('./lib/bio/chapter_3/data/data_4.txt').read_lines
+  puts motif.greedy_motif_search(dna, profile, 12)
+end
 
 task :median do
   motif = Bio::Motif.new
@@ -11,7 +17,6 @@ task :median do
   puts motif.median_string(sample, 6)
 end
 
-
 task :enum do
   motif = Bio::Motif.new
   sample = []
@@ -21,7 +26,6 @@ task :enum do
   result = motif.enumeration(sample, 5, 1)
   File.write('./result.txt', result.join(' '))
 end
-
 
 task :consistent do
   peptide = Bio::Peptide.new
@@ -179,7 +183,6 @@ task :frequency do
 end
 
 task :clumps do
-  #clumps(k, l, t)
   sample = 'GCACAAGGCCGACAATAGGACGTAGCCTTGAAGACGACGTAGCGTGGTCGCATAAG' + 
            'TACAGTAGATAGTACCTCCCCCGCGCATCCTATTATTAAGTTAATT'
   clumps = Bio::OriC.new(sample).clumps(4, 30, 3)
