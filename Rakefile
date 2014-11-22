@@ -1,6 +1,13 @@
 require './lib/bio'
 require 'pry'
 
+task :greedy_motif_search do
+  motif = Bio::Motif.new
+  dnas = Bio::Reader.new('./lib/bio/chapter_3/data/data_5.txt').read_lines
+  result = motif.greedy_motif_search(dnas, 12, 25)
+  File.write('./result.txt', result.join(' '))
+end
+
 task :most_probable do
   motif = Bio::Motif.new
   dna = IO.read('./lib/bio/chapter_3/data/data_3.txt').chomp

@@ -43,7 +43,7 @@ describe Bio::Motif do
     expect(motif.probability(pattern, profile)).to eq(0.0205753)
   end
 
-  context 'search a motif using greedy strategy' do
+  context 'finds the most probable motif' do
     it 'with a simple dataset' do
       dna = 'ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT'
       profile = Bio::Reader.new('./spec/fixtures/profile-2.txt').read_lines
@@ -54,6 +54,26 @@ describe Bio::Motif do
       dna = IO.read('./spec/fixtures/profile-3-dna.txt').chomp
       profile = Bio::Reader.new('./spec/fixtures/profile-3.txt').read_lines
       expect(motif.most_probable(dna, profile, 6)).to eq('TGTCGC')
+    end
+  end
+
+  it 'calculates a motif score' do
+    profile = Bio::Reader.new('./spec/fixtures/motif-score.txt').read_lines
+    expect(motif.score(profile)).to eq(30)
+  end
+
+  context 'search for a motif using greedy strategy' do
+    it 'with a simple dataset' do
+      dnas = Bio::Reader.new('./spec/fixtures/greedy-search.txt').read_lines
+      result = motif.greedy_motif_search(dnas, 3, 5)
+      expect(result).to eq(['CAG', 'CAG', 'CAA', 'CAA', 'CAA'])
+    end
+
+    it 'with a complex dataset' do
+      dnas = Bio::Reader.new('./spec/fixtures/greedy-search-2-input.txt').read_lines
+      output = Bio::Reader.new('./spec/fixtures/greedy-search-2-output.txt').read_lines
+      result = motif.greedy_motif_search(dnas, 12, 25)
+      expect(result).to eq(output)
     end
   end
 end
