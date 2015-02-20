@@ -1,4 +1,4 @@
-bioinformatics
+Bioinformatics
 ==============
 
-Bioinformatics problems from coursera.
+A variety of bioinformatic algorithms implementations in ruby.
